@@ -1,56 +1,47 @@
-"use client"
-import React, { useState } from 'react'
-import {motion} from 'framer-motion'
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
 
-interface Props {
-    image: string;
-    title: string;
-    text: string;
-}
+const projects = [
+  {
+    image: "/wms.webp",
+    title: "Warehouse Management System",
+    description:
+      "A database-driven warehouse management system using Oracle SQL and Java GUI.",
+  },
+  {
+    image: "/ai-attendance.webp",
+    title: "AI Smart Attendance System",
+    description:
+      "An AI-powered attendance system using face recognition and blockchain for security.",
+  },
+];
 
-const ProjectCard = ({ image, title, text}: Props) => {
-    const [isFlipped, setIsFlipped] = useState(false)
-    const [isAnimating, setIsAnimating] = useState(false)
-
-    function handleFlip() {
-        if(!isAnimating) {
-            setIsFlipped(!isFlipped)
-            setIsAnimating(true)
-        }
-    }
+export default function ProjectsSection() {
   return (
-    <div
-    onClick={handleFlip}
-    className='w-[450px] h-[280px] rounded-md cursor-pointer'>
-        <motion.div
-        className='flip-card-inner w-full h-full'
-        initial={false}
-        animate={{rotateY: isFlipped ? 180 : 360}}
-        transition={{ duration: 0.6, animationDirection: 'normal'}}
-        onAnimationComplete={() => setIsAnimating(false)}
-        >
+    <section className="flex flex-col items-center gap-10 p-12 bg-gray-950 min-h-screen">
+      <h1 className="text-4xl font-bold text-white mb-8">Projects</h1>
+      <div className="grid gap-10 sm:grid-cols-2">
+        {projects.map((project, index) => (
+          <motion.div
+            key={index}
+            whileHover={{ scale: 1.05 }}
+            className="relative w-[400px] h-[250px] rounded-3xl overflow-hidden bg-black/20 backdrop-blur-xl border border-gray-700 shadow-lg transition-all hover:shadow-2xl"
+          >
             <div
-            style={{backgroundImage: `url(${image})`}}
-            className='w-full h-full group relative flip-card-front bg-cover bg-center text-white rounded-lg p-4'>
-                    <div  className='absolute inset-0 w-full h-full rounded-md bg-black opacity-0 group-hover:opacity-40'/>
-                    <div className='absolute inset-0 w-full h-full text-[20px] pb-10 hidden group-hover:flex items-center z-[20] justify-center'>
-                    Learn more &gt;
-                    </div>
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${project.image})`,
+                filter: "brightness(0.4)",
+              }}
+            ></div>
+            <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+              <h2 className="text-2xl font-semibold">{project.title}</h2>
+              <p className="text-gray-300 text-sm mt-2">{project.description}</p>
             </div>
-            <div
-            style={{backgroundImage: `url(${image})`}}
-            className='w-full h-full group relative flip-card-back bg-cover bg-center text-white rounded-lg p-4'>
-                    <div  className='absolute inset-0 w-full h-full rounded-md bg-black opacity-50 z-[-1]'/>
-                  <div className='flex flex-col gap-20 py-3 z-[30]'>
-                    <h1 className='text-whote text-2xl font-semibold'>{title}</h1>
-                    <p className='text-gray-200 text-[20px]'>
-                        {text}
-                    </p>
-                  </div>
-            </div>
-        </motion.div>
-    </div>
-  )
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
 }
-
-export default ProjectCard
